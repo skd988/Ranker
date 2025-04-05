@@ -57,8 +57,10 @@ void ManualSorting::run() {
 
 		else if (m_back){
 			system("CLS");
-			if (!m_save.empty()) //could also ask about m_saveIndex
+			if (!m_save.empty()) { //could also ask about m_saveIndex
 				m_save.pop_back();
+				updateSave();
+			}
 			else
 				cerr << "The past is yet to exist, head forward before you look back." << endl << endl;
 			m_saveIndex = 0;
