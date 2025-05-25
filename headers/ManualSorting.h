@@ -16,6 +16,7 @@ using std::wcout;
 using std::cerr;
 using std::vector;
 using std::wstring;
+using std::pair;
 
 const wstring EXIT_NEW_LIST_COMMAND = L"";
 
@@ -31,6 +32,7 @@ public:
 private:
 	void randomizeList();
 	vector<wstring> mergeSort(const vector<wstring>& array);
+	pair<int, int> getNumOfQuestionRange(int size);
 	void questionDisplay(const wstring& a, const wstring& b);
 	bool input(const wstring& a, const wstring& b);
 	bool specialAction(char c);

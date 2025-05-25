@@ -51,12 +51,16 @@ void ManualSorting::run() {
 		if (m_save.empty() && !m_back)
 			randomizeList();
 		m_back = false;
+		pair<int, int> range = getNumOfQuestionRange(m_list.size());
+		wcout << "Estimate for number of questions: " << range.first << " - " << range.second << endl;
+
 		m_list = mergeSort(m_list);
 		if (m_quit) 
 			;
 
 		else if (m_back){
 			system("CLS");
+			
 			if (!m_save.empty()) { //could also ask about m_saveIndex
 				m_save.pop_back();
 				updateSave();
@@ -95,6 +99,19 @@ void ManualSorting::run() {
 	}
 
 	m_quit = false;
+}
+
+pair<int, int> ManualSorting::getNumOfQuestionRange(int size)
+{
+	vector<pair<int, int>> ranges({ { 0, 0}, { 0, 0} });
+	for (int i = 2; i <= size; ++i)
+	{
+		int leftSize = i / 2;
+		int rightSize = i / 2 + i % 2;
+		ranges.push_back({ ranges[leftSize].first + ranges[rightSize].first + leftSize, ranges[leftSize].second + ranges[rightSize].second + (i - 1) });
+	}
+
+	return ranges[size];
 }
 
 void ManualSorting::readListFromFile()
@@ -164,8 +181,9 @@ vector<wstring> ManualSorting::mergeSort(const vector<wstring>& array)
 void ManualSorting::questionDisplay(const wstring& a, const wstring& b)
 {
 
-	wcout << m_saveIndex + 1 << ": Is \"" << reverseHebrew(a) << "\" better than \"" << reverseHebrew(b) << "\"?" << endl;
-	cout << "yes = 1, no = 0" << endl;
+	//wcout << m_saveIndex + 1 << ": Is \"" << reverseHebrew(a) << "\" better than \"" << reverseHebrew(b) << "\"?" << endl;
+	//cout << "yes = 1, no = 0" << endl;
+	wcout << m_saveIndex + 1 << ": \"" << reverseHebrew(a) << "\" VS \"" << reverseHebrew(b) << "\"" << endl;
 }
 
 bool ManualSorting::input(const wstring& a, const wstring& b)
@@ -178,8 +196,8 @@ bool ManualSorting::input(const wstring& a, const wstring& b)
 	
 	else {
 		wchar_t answer;
+		questionDisplay(a, b);
 		while (true) {
-			questionDisplay(a, b);
 			if (m_fill) 
 				answer = '0' + m_rng.rnd(0, 1);
 			else if (m_sort) 
@@ -187,6 +205,16 @@ bool ManualSorting::input(const wstring& a, const wstring& b)
 			else
 				answer = _getwch();
 
+			if (int(answer) == 224)
+			{
+				answer = _getwch();
+				if (answer == 'K')
+					answer = '1';
+				else if (answer == 'M')
+					answer = '0';
+				else
+					continue;
+			}
 			wcout << answer << endl;
 
 			if (isBool(answer)) {
@@ -203,6 +231,7 @@ bool ManualSorting::input(const wstring& a, const wstring& b)
 
 			else
 				cout << "Invalid input" << endl;
+			questionDisplay(a, b);
 		}
 	}
 }
@@ -281,6 +310,7 @@ void ManualSorting::help() const
 	cout << "You shall put a file named \"" << m_inputPath << "\" in the same folder as the program," << endl;
 	cout << "containing the list you want to rank with enters between." << endl;
 	cout << "The program will ask you a series of comparison questions, and you should answer with '1' (yes) or '0' (no)" << endl;
+	cout << "You can also use the arrow keys (choose right or left)" << endl;
 	cout << "The results will print on screen as well in a file named \"results\"" << endl;
 	cout << "Also, make sure to know the special commands: " << endl;
 	cout << "H/h - Help, prints this manual" << endl;

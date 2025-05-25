@@ -6,7 +6,7 @@
 #include "Utilities.h"
 #include <locale>
 #include <iostream>
-
+#include <windows.h>
 using std::string;
 using std::locale;
 using std::wcout;
@@ -27,7 +27,6 @@ int main(int argc, char** argv)
 
 	ManualSorting sorter(listPath, savePath);
 	sorter.run();
-
 	return EXIT_SUCCESS;
 }
 
