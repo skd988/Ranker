@@ -16,6 +16,23 @@ vector<wstring> readWstringListFromFile(string path)
 	return list;
 }
 
+unsigned long binomial_coefficient(unsigned long n, unsigned long k)
+{
+	static map<pair<unsigned long, unsigned long>, unsigned long> binomial_coefficients_map;
+	if (binomial_coefficients_map.count({ n, k }))
+		;
+
+	else if (k > n || n < 0 || k < 0)
+		binomial_coefficients_map[{ n, k }] = 0;
+	else if (n == 0 || n == k)
+		binomial_coefficients_map[{ n, k }] = 1;
+	else
+		binomial_coefficients_map[{ n, k }] = binomial_coefficient(n - 1, k - 1) + binomial_coefficient(n - 1, k);
+	
+	//cout << binomial_coefficients_map[{n, k}] << endl;
+	return binomial_coefficients_map[{n, k}];
+}
+
 void writeWstringListToFile(string path, vector<wstring> list)
 {
 	wofstream outputFile(path);

@@ -9,6 +9,7 @@
 #include <random>
 #include <limits>
 #include <conio.h>
+#include <map>
 
 //using convert_type = std::codecvt_utf8<wchar_t>;
 
@@ -19,6 +20,8 @@ using std::wifstream;
 using std::ifstream;
 using std::ofstream;
 using std::wofstream;
+using std::map;
+using std::pair;
 
 using std::cin;
 using std::cout;
@@ -39,6 +42,7 @@ void swap(int& a, int& b);
 wstring reverseHebrew(wstring str);
 bool isHebrew(wchar_t ch);
 void enterToExit();
+unsigned long binomial_coefficient(unsigned long n, unsigned long k);
 
 template vector<int> copySubVector(const vector<int>& subVec, int start, int end);
 template vector<wstring> copySubVector(const vector<wstring>& subVec, int start, int end);

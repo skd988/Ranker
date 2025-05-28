@@ -26,13 +26,15 @@ public:
 	~ManualSorting();
 	void run();
 
+	pair<int, int> getNumOfQuestionsRange(int size);
+	long double getAverageNumOfQuestions(long size);
+
 	void readListFromFile();
 	void writeListToFile();
 
 private:
 	void randomizeList();
 	vector<wstring> mergeSort(const vector<wstring>& array);
-	pair<int, int> getNumOfQuestionRange(int size);
 	void questionDisplay(const wstring& a, const wstring& b);
 	bool input(const wstring& a, const wstring& b);
 	bool specialAction(char c);

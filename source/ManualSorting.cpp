@@ -51,8 +51,9 @@ void ManualSorting::run() {
 		if (m_save.empty() && !m_back)
 			randomizeList();
 		m_back = false;
-		pair<int, int> range = getNumOfQuestionRange(m_list.size());
-		wcout << "Estimate for number of questions: " << range.first << " - " << range.second << endl;
+		pair<int, int> range = getNumOfQuestionsRange(m_list.size());
+		double average = getAverageNumOfQuestions(m_list.size());
+		wcout << "Estimate for number of questions: " << range.first << " - " << range.second << " Expected:" << average << endl;
 
 		m_list = mergeSort(m_list);
 		if (m_quit) 
@@ -101,7 +102,7 @@ void ManualSorting::run() {
 	m_quit = false;
 }
 
-pair<int, int> ManualSorting::getNumOfQuestionRange(int size)
+pair<int, int> ManualSorting::getNumOfQuestionsRange(int size)
 {
 	vector<pair<int, int>> ranges({ { 0, 0}, { 0, 0} });
 	for (int i = 2; i <= size; ++i)
@@ -112,6 +113,29 @@ pair<int, int> ManualSorting::getNumOfQuestionRange(int size)
 	}
 
 	return ranges[size];
+}
+
+long double ManualSorting::getAverageNumOfQuestions(long size)
+{
+	vector<long double> sort_averages({ 0, 0 });
+	for (unsigned long n = 2; n <= size; ++n)
+	{
+		long double merge = 0;
+		if (n % 2 == 0)
+		{
+			for (unsigned long i = n / 2; i < n; ++i)
+				merge += long double(i) * long double(binomial_coefficient(i - 1, n / 2 - 1));
+			merge /= long double(binomial_coefficient(n - 1, n / 2));
+		}
+		else
+		{
+			for (unsigned long i = n / 2; i < n; ++i)
+				merge += long double(i) * long double(binomial_coefficient(i - 1, n / 2 - 1) + binomial_coefficient(i - 1, n / 2));
+			merge /= long double(binomial_coefficient(n, n / 2));
+		}
+		sort_averages.push_back(sort_averages[n / 2] + sort_averages[(n + 1) / 2] + merge);
+	}
+	return sort_averages.back();
 }
 
 void ManualSorting::readListFromFile()
@@ -198,7 +222,7 @@ bool ManualSorting::input(const wstring& a, const wstring& b)
 		wchar_t answer;
 		questionDisplay(a, b);
 		while (true) {
-			if (m_fill) 
+			if (m_fill)
 				answer = '0' + m_rng.rnd(0, 1);
 			else if (m_sort) 
 				answer = '0' + int(a < b);
