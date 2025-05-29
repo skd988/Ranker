@@ -16,17 +16,17 @@ vector<wstring> readWstringListFromFile(string path)
 	return list;
 }
 
-unsigned long binomial_coefficient(unsigned long n, unsigned long k)
+double binomial_coefficient(unsigned int n, unsigned int k)
 {
-	static map<pair<unsigned long, unsigned long>, unsigned long> binomial_coefficients_map;
-	if (binomial_coefficients_map.count({ n, k }))
-		;
+	static map<pair<unsigned int, unsigned int>, double> binomial_coefficients_map;
 
-	else if (k > n || n < 0 || k < 0)
-		binomial_coefficients_map[{ n, k }] = 0;
-	else if (n == 0 || n == k)
-		binomial_coefficients_map[{ n, k }] = 1;
-	else
+	if (k > n)
+		return 0;
+
+	if (n == 0 || n == k)
+		return 1;
+
+	if (!binomial_coefficients_map.count({ n, k }))
 		binomial_coefficients_map[{ n, k }] = binomial_coefficient(n - 1, k - 1) + binomial_coefficient(n - 1, k);
 	
 	//cout << binomial_coefficients_map[{n, k}] << endl;

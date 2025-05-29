@@ -53,7 +53,8 @@ void ManualSorting::run() {
 		m_back = false;
 		pair<int, int> range = getNumOfQuestionsRange(m_list.size());
 		double average = getAverageNumOfQuestions(m_list.size());
-		wcout << "Estimate for number of questions: " << range.first << " - " << range.second << " Expected:" << average << endl;
+		wcout << "List of " << m_list.size() << " values." << endl;
+		wcout << "Estimate for number of questions: " << range.first << " - " << range.second << " Expected: " << average << endl;
 
 		m_list = mergeSort(m_list);
 		if (m_quit) 
@@ -68,8 +69,8 @@ void ManualSorting::run() {
 			}
 			else
 				cerr << "The past is yet to exist, head forward before you look back." << endl << endl;
-			m_saveIndex = 0;
 
+			m_saveIndex = 0;
 		}
 
 		else if(m_delete){
@@ -115,7 +116,7 @@ pair<int, int> ManualSorting::getNumOfQuestionsRange(int size)
 	return ranges[size];
 }
 
-long double ManualSorting::getAverageNumOfQuestions(long size)
+double ManualSorting::getAverageNumOfQuestions(int size)
 {
 	vector<long double> sort_averages({ 0, 0 });
 	for (unsigned long n = 2; n <= size; ++n)
@@ -124,14 +125,14 @@ long double ManualSorting::getAverageNumOfQuestions(long size)
 		if (n % 2 == 0)
 		{
 			for (unsigned long i = n / 2; i < n; ++i)
-				merge += long double(i) * long double(binomial_coefficient(i - 1, n / 2 - 1));
-			merge /= long double(binomial_coefficient(n - 1, n / 2));
+				merge += i * binomial_coefficient(i - 1, n / 2 - 1);
+			merge /= binomial_coefficient(n - 1, n / 2);
 		}
 		else
 		{
 			for (unsigned long i = n / 2; i < n; ++i)
-				merge += long double(i) * long double(binomial_coefficient(i - 1, n / 2 - 1) + binomial_coefficient(i - 1, n / 2));
-			merge /= long double(binomial_coefficient(n, n / 2));
+				merge += i * (binomial_coefficient(i - 1, n / 2 - 1) + binomial_coefficient(i - 1, n / 2));
+			merge = merge / binomial_coefficient(n, n / 2);
 		}
 		sort_averages.push_back(sort_averages[n / 2] + sort_averages[(n + 1) / 2] + merge);
 	}

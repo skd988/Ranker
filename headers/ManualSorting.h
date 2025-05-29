@@ -27,7 +27,7 @@ public:
 	void run();
 
 	pair<int, int> getNumOfQuestionsRange(int size);
-	long double getAverageNumOfQuestions(long size);
+	double getAverageNumOfQuestions(int size);
 
 	void readListFromFile();
 	void writeListToFile();

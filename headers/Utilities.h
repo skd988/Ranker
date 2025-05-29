@@ -42,7 +42,7 @@ void swap(int& a, int& b);
 wstring reverseHebrew(wstring str);
 bool isHebrew(wchar_t ch);
 void enterToExit();
-unsigned long binomial_coefficient(unsigned long n, unsigned long k);
+double binomial_coefficient(unsigned int n, unsigned int k);
 
 template vector<int> copySubVector(const vector<int>& subVec, int start, int end);
 template vector<wstring> copySubVector(const vector<wstring>& subVec, int start, int end);
